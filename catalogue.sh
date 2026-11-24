@@ -63,7 +63,7 @@ npm install &>> $LOG_FILE
 validate $? "catalogue npm install" | tee -a $LOG_FILE
 
 
-cp  $SCRIPT_DIR/catalogue.service  /etc/systemd/system/catalogue.service  
+cp  catalogue.service  /etc/systemd/system/catalogue.service  
 validate $? "catalogue service copy" | tee -a $LOG_FILE
 
 systemctl daemon-reload
@@ -73,7 +73,7 @@ systemctl start catalogue
 validate $? "catalogue service start" | tee -a $LOG_FILE
 
 
-cp $SCRIPT_DIR/mongo.repo /etc/yum.repos.d/mongo.repo  
+cp mongo.repo /etc/yum.repos.d/mongo.repo  
 validate $? "mongo.repo copy" | tee -a $LOG_FILE
 
 dnf install mongodb-mongosh -y
