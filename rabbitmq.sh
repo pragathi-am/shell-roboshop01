@@ -3,7 +3,7 @@
 USER_ID=$(id -u)
 LOG_FOLDER="/var/log/shell-roboshop01"
 LOG_FILE="/var/log/shell-roboshop01/$0.log"
-SCRIPT_DIR=$pwd   
+SCRIPT_DIR=$pwd
 MONGODB_HOST="mongodb.daws88spr.online"
 
 if [ $USER_ID -ne 0 ]; then 
@@ -27,7 +27,8 @@ validate(){
   fi
 }
 
-cp $SCRIPT_DIR/rabbitmq.repo /etc/yum.repos.d/rabbitmq.repo
+
+cp $pwd/rabbitmq.repo /etc/yum.repos.d/rabbitmq.repo
 validate $? "rabbitmq.repo copy" | tee -a $LOG_FILE
 
 dnf install rabbitmq-server -y  &>> $LOG_FILE
