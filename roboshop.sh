@@ -5,6 +5,8 @@ sg_id=sg-04c912219e9b10141
 HOSTED_ZONE_ID=Z0381228Q9GGQMS573HC
 DOMAIN_NAME=daws88spr.online
 
+# this is used to create ec2 instances and create R53 records for each instance.
+# sudo roboshop.sh mongodb catalogue
 
 for instance in $@
 do 
