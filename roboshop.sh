@@ -45,14 +45,14 @@ do
      {
        "Changes": [
          {
-           "Action": "CREATE",
+           "Action": "UPSERT",
            "ResourceRecordSet": {
              "Name": "'"$RECORD_NAME"'",
              "Type": "A",
              "TTL": 1,
              "ResourceRecords": [
                {
-                 "Value": "'"$IP"'"
+                 "Value": "'$IP'"
                }
              ]
            }
@@ -60,5 +60,5 @@ do
        ]
      }
      '
-  echo "Record created for $instance"
+     echo "Record created for $instance"
 done
