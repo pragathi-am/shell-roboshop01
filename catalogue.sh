@@ -62,8 +62,8 @@ cd /app
 npm install &>> $LOG_FILE
 validate $? "catalogue npm install" | tee -a $LOG_FILE
 
-
-cp  $SCRIPT_DIR/catalogue.service  /etc/systemd/system/catalogue.service  
+cd /$pwd
+cp  catalogue.service  /etc/systemd/system/catalogue.service  
 validate $? "catalogue service copy" | tee -a $LOG_FILE
 
 systemctl daemon-reload
