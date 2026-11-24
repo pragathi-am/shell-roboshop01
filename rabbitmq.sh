@@ -30,7 +30,7 @@ validate(){
 cp $SCRIPT_DIR/rabbitmq.repo /etc/yum.repos.d/rabbitmq.repo
 validate $? "rabbitmq.repo copy" | tee -a $LOG_FILE
 
-dnf install rabbitmq-server -y  
+dnf install rabbitmq-server -y  &>> $LOG_FILE
 validate $? "rabbitmq-server installation" | tee -a $LOG_FILE
 
 systemctl enable rabbitmq-server

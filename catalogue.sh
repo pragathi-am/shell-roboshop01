@@ -28,13 +28,13 @@ validate(){
 }
 
 
-dnf module disable nodejs -y
+dnf module disable nodejs -y &>> $LOG_FILE
 validate $? "nodejs module disable" | tee -a $LOG_FILE
 
-dnf module enable nodejs:20 -y
+dnf module enable nodejs:20 -y &>> $LOG_FILE
 validate $? "nodejs module enable" | tee -a $LOG_FILE
 
-dnf install nodejs -y
+dnf install nodejs -y &>> $LOG_FILE
 validate $? "nodejs installation" | tee -a $LOG_FILE
 
 id roboshop &>>$LOG_FILE
@@ -59,7 +59,7 @@ unzip /tmp/catalogue.zip
 validate $? "catalogue zip unzip" | tee -a $LOG_FILE
 
 cd /app 
-npm install 
+npm install &>> $LOG_FILE
 validate $? "catalogue npm install" | tee -a $LOG_FILE
 
 

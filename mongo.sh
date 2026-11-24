@@ -29,7 +29,7 @@ validate(){
 cp mongo.repo /etc/yum.repos.d/mongo.repo  
 validate $? "mongo.repo copy" | tee -a $LOG_FILE
 
-dnf install mongodb-org -y 
+dnf install mongodb-org -y &>> $LOG_FILE
 validate $? "mongodb-org installation" | tee -a $LOG_FILE
 
 

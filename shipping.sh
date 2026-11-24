@@ -69,7 +69,7 @@ systemctl start shipping
 
 validate $? "shipping service start" | tee -a $LOG_FILE
 
-dnf install mysql -y 
+dnf install mysql -y &>> $LOG_FILE
 validate $? "mysql client installation" | tee -a $LOG_FILE
 mysql -h $MYSQL_HOST -uroot -pRoboShop@1 -e "use cities" 
 if [ $? -ne 0 ]; then

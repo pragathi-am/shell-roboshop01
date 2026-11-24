@@ -28,12 +28,12 @@ validate(){
 }
 
 
-dnf module list nginx
+dnf module list nginx &>> $LOG_FILE
 validate $? "nginx module list" | tee -a $LOG_FILE
 
-dnf module disable nginx -y
-dnf module enable nginx:1.24 -y
-dnf install nginx -y
+dnf module disable nginx -y &>> $LOG_FILE
+dnf module enable nginx:1.24 -y &>> $LOG_FILE
+dnf install nginx -y &>> $LOG_FILE
 validate $? "nginx installation" | tee -a $LOG_FILE 
 
 systemctl enable nginx 

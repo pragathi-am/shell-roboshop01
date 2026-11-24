@@ -26,7 +26,7 @@ VALIDATE(){
     fi
 }
 
-dnf install golang -y
+dnf install golang -y &>> $LOG_FILE
 VALIDATE $? "Installing Golang"
 
 id roboshop &>>$LOGS_FILE
