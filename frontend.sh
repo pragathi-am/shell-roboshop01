@@ -3,7 +3,7 @@
 USER_ID=$(id -u)
 LOG_FOLDER="/var/log/shell-roboshop01"
 LOG_FILE="/var/log/shell-roboshop01/$0.log"
-SCRIPT_DIR=$pwd   
+SCRIPT_DIR=$(pwd)   
 MYSQL_HOST="mysql.daws88spr.online"
 
 if [ $USER_ID -ne 0 ]; then 
