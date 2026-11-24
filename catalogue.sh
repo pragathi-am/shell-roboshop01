@@ -88,7 +88,7 @@ if [ $INDEX -lt 0 ]; then
    mongosh --host $MONGODB_HOST </app/db/master-data.js   
    validate $? "loading master data schema" | tee -a $LOG_FILE
 else
-   echo "catalogue database is already created $R SKIPPING $N"" 
+   echo "catalogue database is already created $R SKIPPING $N"
 fi
 
 systemctl restart catalogue
