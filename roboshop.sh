@@ -1,64 +1,63 @@
 #!/bin/bash
 
-ami_id=ami-0055977a6e828a4f4 
-sg_id=sg-04c912219e9b10141
-HOSTED_ZONE_ID=Z0381228Q9GGQMS573HC
-DOMAIN_NAME=daws88spr.online
-
-# this is used to create ec2 instances and create R53 records for each instance.
-# sudo roboshop.sh mongodb catalogue
+SG_ID="sg-04c912219e9b10141" # replace with your ID
+AMI_ID="ami-0055977a6e828a4f4"
+ZONE_ID="Z0381228Q9GGQMS573HC"
+DOMAIN_NAME="daws88spr.online"
 
 for instance in $@
-do 
-   # create ec2 instance 
-   INSTANCE_ID=$(aws ec2 run-instances \
-    --image-id $ami_id \
-    --instance-type t3.micro \
-    --security-group-ids $sg_id \
+do
+    INSTANCE_ID=$( aws ec2 run-instances \
+    --image-id $AMI_ID \
+    --instance-type "t3.micro" \
+    --security-group-ids $SG_ID \
     --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=$instance}]" \
     --query 'Instances[0].InstanceId' \
-    --output text)
+    --output text )
 
-   # Get private ip and public ip( only for frontend) of instance 
-    if [ "$instance" == "frontend" ]; then  
-       IP=$(aws ec2 describe-instances \
-        --instance-ids $INSTANCE_ID \
-        --query 'Reservations[0].Instances[0].PublicIpAddress' \
-        --output text)
-        echo "Public IP of $instance instance: $PUBLIC_IP"
-        RECORD_NAME="$DOMAIN_NAME"
-
-     else 
-        IP=$(aws ec2 describe-instances \
-        --instance-ids $INSTANCE_ID \
-        --query 'Reservations[0].Instances[0].PrivateIpAddress' \
-        --output text)
-        echo "Private IP of $instance instance: $IP"  
-        RECORD_NAME="$instance.$DOMAIN_NAME"
+    if [ $instance == "frontend" ]; then
+        IP=$(
+            aws ec2 describe-instances \
+            --instance-ids $INSTANCE_ID \
+            --query 'Reservations[].Instances[].PublicIpAddress' \
+            --output text
+        )
+        RECORD_NAME="$DOMAIN_NAME" # daws88s.online
+    else
+        IP=$(
+            aws ec2 describe-instances \
+            --instance-ids $INSTANCE_ID \
+            --query 'Reservations[].Instances[].PrivateIpAddress' \
+            --output text
+        )
+        RECORD_NAME="$instance.$DOMAIN_NAME" # mongodb.daws88s.online
     fi
 
-    # create R53 record for each instance
+    echo "IP Address: $IP"
 
     aws route53 change-resource-record-sets \
-     --hosted-zone-id $HOSTED_ZONE_ID \
-     --change-batch '
-     {
-       "Changes": [
-         {
-           "Action": "UPSERT",
-           "ResourceRecordSet": {
-             "Name": "'"$RECORD_NAME"'",
-             "Type": "A",
-             "TTL": 1,
-             "ResourceRecords": [
-               {
-                 "Value": "'$IP'"
-               }
-             ]
-           }
-         }
-       ]
-     }
-     '
-     echo "Record created for $instance"
+    --hosted-zone-id $ZONE_ID \
+    --change-batch '
+    {
+        "Comment": "Updating record",
+        "Changes": [
+            {
+            "Action": "UPSERT",
+            "ResourceRecordSet": {
+                "Name": "'$RECORD_NAME'",
+                "Type": "A",
+                "TTL": 1,
+                "ResourceRecords": [
+                {
+                    "Value": "'$IP'"
+                }
+                ]
+            }
+            }
+        ]
+    }
+    '
+
+    echo "record updated for $instance"
+
 done
