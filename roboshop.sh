@@ -14,7 +14,7 @@ do
    INSTANCE_ID=$(aws ec2 run-instances \
     --image-id $ami_id \
     --instance-type t3.micro \
-    --security-group-ids $sg_id \   
+    --security-group-ids $sg_id \
     --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=$instance}]" \
     --query 'Instances[0].InstanceId' \
     --output text)
@@ -33,7 +33,7 @@ do
         --instance-ids $INSTANCE_ID \
         --query 'Reservations[0].Instances[0].PrivateIpAddress' \
         --output text)
-        echo "Private IP of $instance instance: $IP   
+        echo "Private IP of $instance instance: $IP"  
         RECORD_NAME="$instance.$DOMAIN_NAME"
     fi
 
