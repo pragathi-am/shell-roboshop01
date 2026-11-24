@@ -5,6 +5,7 @@ LOG_FOLDER="/var/log/shell-roboshop01"
 LOG_FILE="/var/log/shell-roboshop01/$0.log"
 SCRIPT_DIR=$pwd   
 MONGODB_HOST="mongodb.daws88spr.online"
+echo "SCRIPT_DIR: $SCRIPT_DIR"
 
 if [ $USER_ID -ne 0 ]; then 
     echo "you are not root user. please use root user to run this"
@@ -62,7 +63,9 @@ cd /app
 npm install &>> $LOG_FILE
 validate $? "catalogue npm install" | tee -a $LOG_FILE
 
-cd /$pwd
+
+
+
 cp  catalogue.service  /etc/systemd/system/catalogue.service  
 validate $? "catalogue service copy" | tee -a $LOG_FILE
 
