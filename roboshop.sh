@@ -58,7 +58,7 @@ do
            }
          }
        ]
-     }'
-  echo "Record created for $instance instance: $RECORD_NAME -> $IP"
+     }
+     '
+  echo "Record created for $instance"
 done
-
