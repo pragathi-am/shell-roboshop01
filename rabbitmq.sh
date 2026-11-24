@@ -28,7 +28,7 @@ validate(){
 }
 
 
-cp $pwd/rabbitmq.repo /etc/yum.repos.d/rabbitmq.repo
+cp rabbitmq.repo /etc/yum.repos.d/rabbitmq.repo
 validate $? "rabbitmq.repo copy" | tee -a $LOG_FILE
 
 dnf install rabbitmq-server -y  &>> $LOG_FILE
