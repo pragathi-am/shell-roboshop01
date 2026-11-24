@@ -3,7 +3,7 @@
 USER_ID=$(id -u)
 LOG_FOLDER="/var/log/shell-roboshop01"
 LOG_FILE="/var/log/shell-roboshop01/$0.log"
-SCRIPT_DIR=$pwd   
+SCRIPT_DIR=$(pwd)   
 MONGODB_HOST="mongodb.daws88spr.online"
 echo "SCRIPT_DIR: $SCRIPT_DIR"
 
@@ -66,7 +66,7 @@ validate $? "catalogue npm install" | tee -a $LOG_FILE
 
 
 
-cp  catalogue.service  /etc/systemd/system/catalogue.service  
+cp  $SCRIPT_DIR/catalogue.service  /etc/systemd/system/catalogue.service  
 validate $? "catalogue service copy" | tee -a $LOG_FILE
 
 systemctl daemon-reload
@@ -76,7 +76,7 @@ systemctl start catalogue
 validate $? "catalogue service start" | tee -a $LOG_FILE
 
 
-cp mongo.repo /etc/yum.repos.d/mongo.repo  
+cp $SCRIPT_DIR/mongo.repo /etc/yum.repos.d/mongo.repo  
 validate $? "mongo.repo copy" | tee -a $LOG_FILE
 
 dnf install mongodb-mongosh -y
